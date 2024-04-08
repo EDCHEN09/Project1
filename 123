@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+  int birth_year, birth_month, birth_day;
+  int current_month;
+  int years, months;
+
+// 輸入當前月份
+  printf("現在幾月（1-12）：");
+  scanf("%d", &current_month);
+
+  // 輸入出生日期
+  printf("什麼時候出生的？（YYYY-MM-DD）：");
+  scanf("%d-%d-%d", &birth_year, &birth_month, &birth_day);
+
+  // 計算出生年數
+  years = 2024 - birth_year;
+
+  // 計算出生月份
+  months = -(current_month - birth_month);
+
+  // 檢查當前月份是否小於出生月份
+  if (current_month < birth_month) {
+    years--;
+  }
+
+  // 檢查當前日期是否小於出生日期
+  if (birth_day > 1) {
+    months--;
+  }
+
+  // 輸出結果
+  printf("出生 %d 年 %d 個月\n", years, months);
+
+  return 0;
+}
