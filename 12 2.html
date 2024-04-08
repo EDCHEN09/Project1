@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>標記圖片</title>
+    <style>
+        #image-container {
+            position:relative;
+        }
+        .marker {
+            position: absolute;
+            background-color: red;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        #canvas {
+            position:absolute;
+            top: 0px;
+            right:1280px;
+            width:1256px;
+            height:1157px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <label for="locationInput">輸入名稱：</label>
+        <input type="text" id="locationInput">
+        <button onclick="markLocation()">標記位置</button>
+    </div>
+    <div id="image-container">
+        <img src="https://i.imgur.com/oXas80e.jpg" alt="Your Image" id="main-image">
+        <canvas id="canvas" width="1256" height="1157"></canvas>
+    </div>
+    <script>
+        const markers = [];
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        function markLocation() {
+            const locationInput = document.getElementById("locationInput");
+            const locationName = locationInput.value.trim();
+
+            // 假設有一個名稱到坐標的映射
+            const customLocations = {
+                "1": { x:140, y: 470 },
+                "2": { x: 250, y: 170 },
+                "3": { x: 570, y:20 },
+                "4": { x: 750, y: 300 },
+                "5": { x: 1070, y: 500 },
+                "6": { x: 1130, y: 630 },
+                "7": { x:200, y: 1080 },
+                // 添加更多的自定義位置
+            };
+
+            if (locationName && customLocations[locationName]) {
+                const marker = document.createElement("div");
+                marker.className = "marker";
+                marker.style.left = customLocations[locationName].x + "px";
+                marker.style.top = customLocations[locationName].y + "px";
+                document.getElementById("image-container").appendChild(marker);
+
+                markers.push(customLocations[locationName]);
+ if (markers.length > 1) {
+                    ctx.beginPath();
+                    ctx.moveTo(markers[markers.length - 2].x, markers[markers.length - 2].y);
+                    ctx.lineTo(customLocations[locationName].x, customLocations[locationName].y);
+                    ctx.strokeStyle = "red";
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    // Fill the area
+                    ctx.fillStyle = "red";
+                    ctx.lineTo(customLocations[locationName].x, customLocations[locationName].y);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            } else {
+                alert("請輸入有效的名稱");
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
